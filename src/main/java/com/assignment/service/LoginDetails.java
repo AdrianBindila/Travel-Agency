@@ -1,8 +1,6 @@
 package com.assignment.service;
 
 public class LoginDetails {
-
-
     private final String username;
     private final String password;
 
@@ -18,7 +16,7 @@ public class LoginDetails {
         return LoginStatus.CORRECT;
     }
 
-    private boolean findLogin(String username, String password) {
+    private boolean findLogin(String username, String password) {//TODO
         return false;
     }
 }

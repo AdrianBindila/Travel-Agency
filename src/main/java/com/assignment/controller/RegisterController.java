@@ -1,7 +1,6 @@
 package com.assignment.controller;
 
 import com.assignment.service.RegisterDetails;
-import com.assignment.service.RegisterService;
 import com.assignment.service.RegisterStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,7 +45,6 @@ public class RegisterController implements Initializable {
         signupBtn.setTooltip(tooltip);
     }
 
-
     @FXML
     void signup(ActionEvent event) throws IOException {
         //TODO: validate, add new user in db, go to user screen
@@ -60,7 +58,7 @@ public class RegisterController implements Initializable {
         signupToolTip.show(window);
 
         if (status == RegisterStatus.CORRECT) {
-            RegisterService.addUser(registerDetails);
+            registerDetails.registerUser();
             Utils.switchScene(event, "user.fxml", Utils.userTitle);
         }
     }
@@ -69,5 +67,4 @@ public class RegisterController implements Initializable {
     void cancel(ActionEvent event) throws IOException {
         Utils.switchScene(event, "login.fxml", Utils.loginTitle);
     }
-
 }

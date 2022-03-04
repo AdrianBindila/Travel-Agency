@@ -60,6 +60,4 @@ public class LoginController implements Initializable {
     void openTravelAgentScreen(ActionEvent event) throws IOException {
         switchScene(event, "travel-agency.fxml", Utils.travelAgencyTitle);
     }
-
-
 }

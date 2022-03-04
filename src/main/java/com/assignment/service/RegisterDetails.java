@@ -4,8 +4,6 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class RegisterDetails {
-    
-
     private final String firstName;
     private final String lastName;
     private final String email;
@@ -20,6 +18,10 @@ public class RegisterDetails {
         this.username = username;
         this.password = password;
         this.confirmedPassword = confirmedPassword;
+    }
+
+    public void registerUser(){//TODO
+
     }
 
     public RegisterStatus validate() {
