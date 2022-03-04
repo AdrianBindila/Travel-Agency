@@ -1,15 +1,10 @@
 package com.assignment.service;
 
+import java.util.Objects;
+import java.util.regex.Pattern;
+
 public class RegisterDetails {
-    public enum RegisterStatus {
-        CORRECT,
-        INVALID_FNAME,
-        INVALID_LNAME,
-        INVALID_EMAIL,
-        INVALID_USERNAME,
-        INVALID_PASSWORD,
-        INVALID_CONFIRMPASS
-    }
+    
 
     private final String firstName;
     private final String lastName;
@@ -32,30 +27,43 @@ public class RegisterDetails {
         if (!validateName(lastName)) return RegisterStatus.INVALID_LNAME;
         if (!validateEmail(email)) return RegisterStatus.INVALID_EMAIL;
         if (!validateUsername(username)) return RegisterStatus.INVALID_USERNAME;
-        if (!validateUsername(password)) return RegisterStatus.INVALID_PASSWORD;
+        if (!validatePassword(password)) return RegisterStatus.INVALID_PASSWORD;
         if (!validateConfPass(password, confirmedPassword)) return RegisterStatus.INVALID_CONFIRMPASS;
         return RegisterStatus.CORRECT;
     }
 
-    private boolean validateName(String name) {
-        return false;
+    private boolean validateName(String name) {//name shouldn't contain numbers and first letter should be capital
+        return !name.isEmpty() && name.chars().allMatch(Character::isLetter) && Character.isUpperCase(name.charAt(0));
     }
 
     private boolean validateEmail(String email) {
+        //{address}@{domain}
+        //email must be unique - must not already exist in DB
+        String emailPattern = "^(.+)@(\\\\S+)$";
+        return Pattern.compile(emailPattern).matcher(email).matches() && !findEmail(email);
+    }
+
+    private boolean findEmail(String email) {
+        //TODO
         return false;
     }
 
     private boolean validateUsername(String username) {
-        //username too short
+        //username too short - at least 4 chars
+        return (username.length() > 3) && !findUsername(username);
+    }
+
+    private boolean findUsername(String username) {
+        //TODO
         return false;
     }
 
     private boolean validatePassword(String password) {
-        //password 8 char, must contain number and letter
-        return false;
+        //password 8 char, must contain number
+        return (password.length() > 7 && password.chars().anyMatch(Character::isDigit));
     }
 
     private boolean validateConfPass(String password, String confirmedPassword) {
-        return false;
+        return (Objects.equals(password, confirmedPassword));
     }
 }

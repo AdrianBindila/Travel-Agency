@@ -1,6 +1,7 @@
 package com.assignment.controller;
 
 import com.assignment.service.LoginDetails;
+import com.assignment.service.LoginStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,35 +37,28 @@ public class LoginController implements Initializable {
 
     @FXML
     void login(ActionEvent event) throws IOException {
-        LoginDetails loginDetails = new LoginDetails(usernameTextField.getText(),passwordTextField.getText());
-        Window window=((Node) event.getSource()).getScene().getWindow();
-        switch (loginDetails.validate()){
-            case INVALID_USERNAME -> {
-                loginBtn.getTooltip().setText("Username field is invalid!");
-                loginBtn.getTooltip().show(window);
-            }
-            case INVALID_PASSWORD -> {
-                loginBtn.getTooltip().setText("Password field is invalid!");
-                loginBtn.getTooltip().show(window);
-            }
-            case NOT_FOUND -> {
-                loginBtn.getTooltip().setText("Username/password not found!");
-                loginBtn.getTooltip().show(window);
-            }
-            case CORRECT -> {
-                switchScene(event, "user.fxml", "User Screen");
-            }
+        Window window = ((Node) event.getSource()).getScene().getWindow();
+
+        LoginDetails loginDetails = new LoginDetails(usernameTextField.getText(), passwordTextField.getText());
+        LoginStatus status = loginDetails.validate();
+
+        Tooltip tooltip = loginBtn.getTooltip();
+        tooltip.setText(status.label);
+        tooltip.show(window);
+
+        if (status == LoginStatus.CORRECT) {
+            switchScene(event, "user.fxml", Utils.userTitle);
         }
     }
 
     @FXML
-    void signup(ActionEvent event) throws IOException {
-        switchScene(event, "register.fxml", "Signup");
+    void register(ActionEvent event) throws IOException {
+        switchScene(event, "register.fxml", Utils.registerTitle);
     }
 
     @FXML
     void openTravelAgentScreen(ActionEvent event) throws IOException {
-        switchScene(event, "travel-agency.fxml", "Travel Agency");
+        switchScene(event, "travel-agency.fxml", Utils.travelAgencyTitle);
     }
 
 

@@ -14,7 +14,7 @@
         </font>
     </Text>
     <Button fx:id="loginBtn" layoutX="270.0" layoutY="254.0" mnemonicParsing="false" onAction="#login" text="Login" />
-    <Button fx:id="signupBtn" layoutX="263.0" layoutY="304.0" mnemonicParsing="false" onAction="#signup" text="Sign Up" />
+    <Button fx:id="signupBtn" layoutX="263.0" layoutY="304.0" mnemonicParsing="false" onAction="#register" text="Sign Up" />
 
     <TextField fx:id="usernameTextField" layoutX="216.0" layoutY="142.0" promptText="username" />
     <PasswordField fx:id="passwordTextField" layoutX="215.0" layoutY="188.0" promptText="password" />

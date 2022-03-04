@@ -3,7 +3,7 @@ package com.assignment.model;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Destination {//joins vacay with destination
+public class Destination {//joins vacation with destination
     UUID id;
     String name;
     ArrayList<VacationPackage> vacationPackages;

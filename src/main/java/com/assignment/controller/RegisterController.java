@@ -1,19 +1,16 @@
 package com.assignment.controller;
 
-import com.assignment.Main;
 import com.assignment.service.RegisterDetails;
 import com.assignment.service.RegisterService;
+import com.assignment.service.RegisterStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
@@ -42,9 +39,6 @@ public class RegisterController implements Initializable {
     @FXML
     private Button signupBtn;
 
-    @FXML
-    private Button cancelBtn;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Tooltip tooltip = new Tooltip();
@@ -54,42 +48,26 @@ public class RegisterController implements Initializable {
 
 
     @FXML
-    void signup(ActionEvent event) {
-        //TODO: get all user inputs, validate, add new user in db, go to user screen
+    void signup(ActionEvent event) throws IOException {
+        //TODO: validate, add new user in db, go to user screen
+        Window window = ((Node) event.getSource()).getScene().getWindow();
+
         RegisterDetails registerDetails = new RegisterDetails(fNameTextField.getText(), lNameTextField.getText(), emailTextField.getText(), usernameTextField.getText(), passTextField.getText(), confPassTextField.getText());
-        Window window=((Node) event.getSource()).getScene().getWindow();
-        switch (registerDetails.validate()){
-            case INVALID_FNAME -> {
+        RegisterStatus status = registerDetails.validate();
 
-            }
-            case INVALID_LNAME -> {
+        Tooltip signupToolTip = signupBtn.getTooltip();
+        signupToolTip.setText(status.label);
+        signupToolTip.show(window);
 
-            }
-            case INVALID_EMAIL -> {
-
-            }
-            case INVALID_USERNAME -> {
-
-            }
-            case INVALID_PASSWORD -> {
-
-            }
-            case INVALID_CONFIRMPASS -> {
-
-            }
-            case CORRECT -> {
-                RegisterService.addUser(registerDetails);
-            }
+        if (status == RegisterStatus.CORRECT) {
+            RegisterService.addUser(registerDetails);
+            Utils.switchScene(event, "user.fxml", Utils.userTitle);
         }
     }
 
     @FXML
     void cancel(ActionEvent event) throws IOException {
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        FXMLLoader loginLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
-        Scene loginScene = new Scene(loginLoader.load());
-        window.setScene(loginScene);
-        window.show();
+        Utils.switchScene(event, "login.fxml", Utils.loginTitle);
     }
 
 }

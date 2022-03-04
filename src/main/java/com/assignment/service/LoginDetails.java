@@ -1,12 +1,7 @@
 package com.assignment.service;
 
 public class LoginDetails {
-    public enum LoginStatus {
-        CORRECT,
-        INVALID_USERNAME,
-        INVALID_PASSWORD,
-        NOT_FOUND
-    }
+
 
     private final String username;
     private final String password;
@@ -17,13 +12,13 @@ public class LoginDetails {
     }
 
     public LoginStatus validate() {
-        if (username.isEmpty()) return LoginStatus.INVALID_USERNAME;
-        if (password.isEmpty()) return LoginStatus.INVALID_PASSWORD;
-        if (!find(username, password)) return LoginStatus.NOT_FOUND;
+        if (username.isEmpty()) return LoginStatus.EMPTY_USERNAME;
+        if (password.isEmpty()) return LoginStatus.EMPTY_PASSWORD;
+        if (!findLogin(username, password)) return LoginStatus.NOT_FOUND;
         return LoginStatus.CORRECT;
     }
 
-    private boolean find(String username, String password) {
+    private boolean findLogin(String username, String password) {
         return false;
     }
 }
