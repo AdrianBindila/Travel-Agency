@@ -47,7 +47,6 @@ public class RegisterController implements Initializable {
 
     @FXML
     void signup(ActionEvent event) throws IOException {
-        //TODO: validate, add new user in db, go to user screen
         Window window = ((Node) event.getSource()).getScene().getWindow();
 
         RegisterDetails registerDetails = new RegisterDetails(fNameTextField.getText(), lNameTextField.getText(), emailTextField.getText(), usernameTextField.getText(), passTextField.getText(), confPassTextField.getText());

@@ -14,6 +14,7 @@ class Utils {
     final static String registerTitle = "Register";
     final static String userTitle = "User Screen";
     final static String travelAgencyTitle = "Travel Agency";
+    final static String userBookingsTitle="User Bookings";
 
     static void switchScene(ActionEvent event, String screenPath, String title) throws IOException {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -19,4 +19,8 @@ public class LoginDetails {
     private boolean findLogin(String username, String password) {//TODO
         return false;
     }
+
+    public void loginUser(){
+
+    }
 }

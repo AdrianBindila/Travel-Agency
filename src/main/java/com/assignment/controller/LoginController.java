@@ -41,13 +41,14 @@ public class LoginController implements Initializable {
 
         LoginDetails loginDetails = new LoginDetails(usernameTextField.getText(), passwordTextField.getText());
         LoginStatus status = loginDetails.validate();
-
-        Tooltip tooltip = loginBtn.getTooltip();
-        tooltip.setText(status.label);
-        tooltip.show(window);
-
+        //switchScene(event, "user.fxml", Utils.userTitle);
         if (status == LoginStatus.CORRECT) {
+            loginDetails.loginUser();
             switchScene(event, "user.fxml", Utils.userTitle);
+        } else {
+            Tooltip tooltip = loginBtn.getTooltip();
+            tooltip.setText(status.label);
+            tooltip.show(window);
         }
     }
 
