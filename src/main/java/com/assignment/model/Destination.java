@@ -1,17 +1,29 @@
 package com.assignment.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.UUID;
 
-public class Destination {//joins vacation with destination
-    UUID id;
+@Entity
+@Table(name = "Destination")
+public class Destination {
+    @Id
+    String id;
+    @Column
     String name;
-    ArrayList<VacationPackage> vacationPackages;
+    @OneToMany(mappedBy = "destination")
+    Set<VacationPackage> vacationPackages;
 
     public Destination() {
     }
 
-    public Destination(UUID id, String name, ArrayList<VacationPackage> vacationPackages) {
+    public Destination(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Destination(String id, String name, Set<VacationPackage> vacationPackages) {
         this.id = id;
         this.name = name;
         this.vacationPackages = vacationPackages;

@@ -25,8 +25,8 @@ public class RegisterDetails {
     }
 
     public RegisterStatus validate() {
-        if (!validateName(firstName)) return RegisterStatus.INVALID_FNAME;
-        if (!validateName(lastName)) return RegisterStatus.INVALID_LNAME;
+        if (validateName(firstName)) return RegisterStatus.INVALID_FNAME;
+        if (validateName(lastName)) return RegisterStatus.INVALID_LNAME;
         if (!validateEmail(email)) return RegisterStatus.INVALID_EMAIL;
         if (!validateUsername(username)) return RegisterStatus.INVALID_USERNAME;
         if (!validatePassword(password)) return RegisterStatus.INVALID_PASSWORD;
@@ -35,7 +35,7 @@ public class RegisterDetails {
     }
 
     private boolean validateName(String name) {//name shouldn't contain numbers and first letter should be capital
-        return !name.isEmpty() && name.chars().allMatch(Character::isLetter) && Character.isUpperCase(name.charAt(0));
+        return name.isEmpty() || !name.chars().allMatch(Character::isLetter) || !Character.isUpperCase(name.charAt(0));
     }
 
     private boolean validateEmail(String email) {

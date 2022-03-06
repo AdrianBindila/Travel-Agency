@@ -44,7 +44,7 @@ public class UserController implements Initializable {
     private Button userBookingsBtn;
 
     @FXML
-    private TableView<?> vacationsTableView;
+    private TableView<?> vacationsTableView;//User table doesn't contain status, only the travel agency can see that.
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -3,13 +3,13 @@ package com.assignment.service;
 import com.assignment.model.User;
 import com.assignment.model.VacationPackage;
 
-
+enum Criterion {
+    DESTINATION,
+    PRICE,
+    PERIOD
+}
 public interface UserServiceInterface {
-    enum Criterion {
-        DESTINATION,
-        PRICE,
-        PERIOD
-    }
+
     void register(String username, String password);
 
     void login(User user);

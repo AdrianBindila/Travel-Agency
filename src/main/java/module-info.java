@@ -8,10 +8,9 @@ module com.assignment {
     requires validatorfx;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;
+    requires javax.persistence;
+
 
     opens com.assignment to javafx.fxml;
     exports com.assignment;
-    exports com.assignment.controller;
-    opens com.assignment.controller to javafx.fxml;
 }

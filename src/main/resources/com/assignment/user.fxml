@@ -27,7 +27,6 @@
             <TableColumn prefWidth="75.0" text="Period" />
             <TableColumn prefWidth="224.0" text="Details" />
             <TableColumn minWidth="0.0" prefWidth="89.0" text="Seats" />
-            <TableColumn prefWidth="166.0" text="Status" />
         </columns>
       </TableView>
       <MenuButton fx:id="FilterMenuBtn" layoutX="203.0" layoutY="484.0" mnemonicParsing="false" popupSide="RIGHT" text="Filter By:">
