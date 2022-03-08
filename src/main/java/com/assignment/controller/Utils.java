@@ -1,6 +1,6 @@
 package com.assignment.controller;
 
-import com.assignment.Main;
+import com.assignment.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -18,7 +18,7 @@ class Utils {
 
     static void switchScene(ActionEvent event, String screenPath, String title) throws IOException {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        FXMLLoader screenLoader = new FXMLLoader(Main.class.getResource(screenPath));
+        FXMLLoader screenLoader = new FXMLLoader(App.class.getResource(screenPath));
         Scene scene = new Scene(screenLoader.load());
         window.setTitle(title);
         window.setScene(scene);

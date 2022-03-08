@@ -12,10 +12,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.IOException;
 
-public class Main extends Application {
+public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Travel App");
         stage.setScene(scene);
@@ -26,7 +26,7 @@ public class Main extends Application {
             Persistence.createEntityManagerFactory("ro.tutorial.Assignment1");
 
     public static void main(String[] args) {
-        //launch();
+        launch();
 //        EntityManager em = entityManagerFactory.createEntityManager();
 //        em.getTransaction().begin();
 //        em.persist(new Destination("aiaia","Honduras"));

@@ -31,7 +31,7 @@ public class VacationPackage {
     @Column(nullable = false)
     int seats;
 
-    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "bookings")
+    @ManyToMany(cascade = CascadeType.ALL)
     Set<User> participants;
     public VacationPackage() {
     }
