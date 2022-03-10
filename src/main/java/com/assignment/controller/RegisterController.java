@@ -55,7 +55,7 @@ public class RegisterController implements Initializable {
         RegisterStatus status = registerDetails.validate();
 
         if (status == RegisterStatus.CORRECT) {
-            currentUser=registerDetails.registerUser();
+            currentUser = registerDetails.registerUser();
             Utils.switchScene(event, "user.fxml", Utils.userTitle);
         } else {
             Tooltip signupToolTip = signupBtn.getTooltip();
