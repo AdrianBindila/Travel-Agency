@@ -1,30 +1,29 @@
 package com.assignment.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "Destination")
 public class Destination {
     @Id
-    String id;
-    @Column
-    String name;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    @Column(unique = true)
+    private String name;
     @OneToMany(mappedBy = "destination")
-    Set<VacationPackage> vacationPackages;
+    private Set<VacationPackage> vacationPackages;
 
     public Destination() {
     }
 
-    public Destination(String id, String name) {
-        this.id = id;
+    public Destination(String name) {
+        this.id = null;
         this.name = name;
     }
 
-    public Destination(String id, String name, Set<VacationPackage> vacationPackages) {
-        this.id = id;
+    public Destination(String name, Set<VacationPackage> vacationPackages) {
+        this.id = null;
         this.name = name;
         this.vacationPackages = vacationPackages;
     }

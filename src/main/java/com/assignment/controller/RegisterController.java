@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static com.assignment.controller.Utils.currentUser;
+
 public class RegisterController implements Initializable {
     @FXML
     private TextField fNameTextField;
@@ -52,13 +54,13 @@ public class RegisterController implements Initializable {
         RegisterDetails registerDetails = new RegisterDetails(fNameTextField.getText(), lNameTextField.getText(), emailTextField.getText(), usernameTextField.getText(), passTextField.getText(), confPassTextField.getText());
         RegisterStatus status = registerDetails.validate();
 
-        Tooltip signupToolTip = signupBtn.getTooltip();
-        signupToolTip.setText(status.label);
-        signupToolTip.show(window);
-
         if (status == RegisterStatus.CORRECT) {
-            registerDetails.registerUser();
+            currentUser=registerDetails.registerUser();
             Utils.switchScene(event, "user.fxml", Utils.userTitle);
+        } else {
+            Tooltip signupToolTip = signupBtn.getTooltip();
+            signupToolTip.setText(status.label);
+            signupToolTip.show(window);
         }
     }
 

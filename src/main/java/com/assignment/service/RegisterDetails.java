@@ -1,36 +1,34 @@
 package com.assignment.service;
 
+import com.assignment.model.User;
+import com.assignment.repository.UserRepository;
+
 import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class RegisterDetails {
-    private final String firstName;
-    private final String lastName;
-    private final String email;
-    private final String username;
-    private final String password;
+    private final User user;
     private final String confirmedPassword;
+    private final UserRepository userRepository;
 
     public RegisterDetails(String firstName, String lastName, String email, String username, String password, String confirmedPassword) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.username = username;
-        this.password = password;
+        this.user = new User(email, username, password, firstName, lastName);
         this.confirmedPassword = confirmedPassword;
+        this.userRepository = new UserRepository();
     }
 
-    public void registerUser(){//TODO
-
+    public User registerUser() {
+        userRepository.insert(user);
+        return user;
     }
 
     public RegisterStatus validate() {
-        if (validateName(firstName)) return RegisterStatus.INVALID_FNAME;
-        if (validateName(lastName)) return RegisterStatus.INVALID_LNAME;
-        if (!validateEmail(email)) return RegisterStatus.INVALID_EMAIL;
-        if (!validateUsername(username)) return RegisterStatus.INVALID_USERNAME;
-        if (!validatePassword(password)) return RegisterStatus.INVALID_PASSWORD;
-        if (!validateConfPass(password, confirmedPassword)) return RegisterStatus.INVALID_CONFIRMPASS;
+        if (validateName(user.getFirstName())) return RegisterStatus.INVALID_FNAME;
+        if (validateName(user.getLastname())) return RegisterStatus.INVALID_LNAME;
+        if (!validateEmail(user.getEmail())) return RegisterStatus.INVALID_EMAIL;
+        if (!validateUsername(user.getUsername())) return RegisterStatus.INVALID_USERNAME;
+        if (!validatePassword(user.getPassword())) return RegisterStatus.INVALID_PASSWORD;
+        if (!validateConfPass(user.getPassword(), confirmedPassword)) return RegisterStatus.INVALID_CONFIRMPASS;
         return RegisterStatus.CORRECT;
     }
 
@@ -39,15 +37,12 @@ public class RegisterDetails {
     }
 
     private boolean validateEmail(String email) {
-        //{address}@{domain}
-        //email must be unique - must not already exist in DB
-        String emailPattern = "^(.+)@(\\\\S+)$";
-        return Pattern.compile(emailPattern).matcher(email).matches() && !findEmail(email);
+        String emailPattern = "^(.+)@(.+)$";
+        return Pattern.compile(emailPattern, Pattern.CASE_INSENSITIVE).matcher(email).find() && !findEmail(email);
     }
 
     private boolean findEmail(String email) {
-        //TODO
-        return false;
+        return (userRepository.findEmail(email) != null);
     }
 
     private boolean validateUsername(String username) {
@@ -56,8 +51,7 @@ public class RegisterDetails {
     }
 
     private boolean findUsername(String username) {
-        //TODO
-        return false;
+        return (userRepository.findUsername(username) != null);
     }
 
     private boolean validatePassword(String password) {

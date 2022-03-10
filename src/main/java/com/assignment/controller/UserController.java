@@ -3,12 +3,7 @@ package com.assignment.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -48,7 +43,10 @@ public class UserController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        System.out.println(Utils.currentUser);
+        //TODO - populate bookings table
+        //TODO - populate Destination filter
+        //TODO - populate price filter
     }
 
     @FXML
@@ -63,7 +61,7 @@ public class UserController implements Initializable {
 
     @FXML
     void cancel(ActionEvent event) throws IOException {
-        Utils.switchScene(event,"login.fxml",Utils.loginTitle);
+        Utils.switchScene(event, "login.fxml", Utils.loginTitle);
     }
 
     @FXML
@@ -83,6 +81,6 @@ public class UserController implements Initializable {
 
     @FXML
     void showUserBookings(ActionEvent event) throws IOException {
-        Utils.switchScene(event,"user-bookings.fxml",Utils.userBookingsTitle);
+        Utils.switchScene(event, "user-bookings.fxml", Utils.userBookingsTitle);
     }
 }

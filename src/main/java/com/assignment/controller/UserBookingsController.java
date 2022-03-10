@@ -25,6 +25,6 @@ public class UserBookingsController implements Initializable {
 
     @FXML
     void cancel(ActionEvent event) throws IOException {
-        Utils.switchScene(event,"user.fxml",Utils.userTitle);
+        Utils.switchScene(event, "user.fxml", Utils.userTitle);
     }
 }

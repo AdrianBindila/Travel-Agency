@@ -2,42 +2,36 @@ package com.assignment.model;
 
 import javax.persistence.*;
 import java.util.Set;
-import java.util.UUID;
+
 @Entity
-@Table(name="VacationPackage")
+@Table(name = "VacationPackage")
 public class VacationPackage {
-    @Id
-    String id;
-
-    @ManyToOne()
-    @JoinColumn(nullable = false)
-    Destination destination;
-
-    @Column(unique = true, nullable = false)
-    String name;
-
-    @Column(nullable = false)
-    String price;
-
-    @Column(nullable = false)
-    String period;
-
-    @Column(nullable = false)
-    String details;
-
-    @Column(nullable = false)
-    String status;
-
-    @Column(nullable = false)
-    int seats;
-
     @ManyToMany(cascade = CascadeType.ALL)
     Set<User> participants;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    @ManyToOne()
+    @JoinColumn(nullable = false)
+    private Destination destination;
+    @Column(unique = true, nullable = false)
+    private String name;
+    @Column(nullable = false)
+    private String price;
+    @Column(nullable = false)
+    private String period;
+    @Column(nullable = false)
+    private String details;
+    @Column(nullable = false)
+    private String status;
+    @Column(nullable = false)
+    private int seats;
+
     public VacationPackage() {
     }
 
-    public VacationPackage(String id, String name, String price, String period, String details, String status, int seats) {
-        this.id = id;
+    public VacationPackage(String name, String price, String period, String details, String status, int seats) {
+        this.id = null;
         this.name = name;
         this.price = price;
         this.period = period;

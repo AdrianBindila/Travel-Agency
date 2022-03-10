@@ -10,7 +10,7 @@ import javafx.scene.control.TableView;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TravelAgencyController implements Initializable {
+public class TravelController implements Initializable {
 
     @FXML
     private Button addDestinationBtn;

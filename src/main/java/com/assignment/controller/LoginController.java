@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static com.assignment.controller.Utils.currentUser;
 import static com.assignment.controller.Utils.switchScene;
 
 public class LoginController implements Initializable {
@@ -41,9 +42,9 @@ public class LoginController implements Initializable {
 
         LoginDetails loginDetails = new LoginDetails(usernameTextField.getText(), passwordTextField.getText());
         LoginStatus status = loginDetails.validate();
-        //switchScene(event, "user.fxml", Utils.userTitle);
+
         if (status == LoginStatus.CORRECT) {
-            loginDetails.loginUser();
+            currentUser = loginDetails.getUser();
             switchScene(event, "user.fxml", Utils.userTitle);
         } else {
             Tooltip tooltip = loginBtn.getTooltip();

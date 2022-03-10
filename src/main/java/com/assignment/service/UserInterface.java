@@ -8,7 +8,8 @@ enum Criterion {
     PRICE,
     PERIOD
 }
-public interface UserServiceInterface {
+
+public interface UserInterface {
 
     void register(String username, String password);
 
