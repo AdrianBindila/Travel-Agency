@@ -2,6 +2,8 @@ package com.assignment.service;
 
 import com.assignment.model.Destination;
 
+import java.util.List;
+
 enum Status {
     NOT_BOOKED,
     IN_PROGRESS,
@@ -9,7 +11,8 @@ enum Status {
 }
 
 public interface TravelAgencyInterface {
-    void addDestination(Destination d);
+
+    void addDestination(String destinationName);
 
     void addPackage(Destination d, Package p);
 
@@ -20,4 +23,8 @@ public interface TravelAgencyInterface {
     void getVacationPackages(Status s);
 
     void deleteDestination(Destination d);
+
+    List<Package> viewVacationPackages();
+
+    List<Destination> viewDestinations();
 }

@@ -8,6 +8,7 @@ import java.util.Set;
 public class VacationPackage {
     @ManyToMany(cascade = CascadeType.ALL)
     Set<User> participants;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -22,6 +23,11 @@ public class VacationPackage {
     private String period;
     @Column(nullable = false)
     private String details;
+
+    public String getName() {
+        return name;
+    }
+
     @Column(nullable = false)
     private String status;
     @Column(nullable = false)
@@ -30,13 +36,29 @@ public class VacationPackage {
     public VacationPackage() {
     }
 
-    public VacationPackage(String name, String price, String period, String details, String status, int seats) {
-        this.id = null;
+    public VacationPackage(Destination destination, String name, String price, String period, String details, String status, int seats) {
+        this.id = 0;
+        this.destination = destination;
         this.name = name;
         this.price = price;
         this.period = period;
         this.details = details;
         this.status = status;
         this.seats = seats;
+    }
+
+    @Override
+    public String toString() {
+        return "VacationPackage{" +
+                "participants=" + participants +
+                ", id=" + id +
+                ", destination=" + destination +
+                ", name='" + name + '\'' +
+                ", price='" + price + '\'' +
+                ", period='" + period + '\'' +
+                ", details='" + details + '\'' +
+                ", status='" + status + '\'' +
+                ", seats=" + seats +
+                '}';
     }
 }

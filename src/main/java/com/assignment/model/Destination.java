@@ -9,6 +9,11 @@ public class Destination {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    public String getName() {
+        return name;
+    }
+
     @Column(unique = true)
     private String name;
     @OneToMany(mappedBy = "destination")

@@ -30,7 +30,7 @@
     <Button fx:id="addDestinationBtn" layoutX="207.0" layoutY="408.0" mnemonicParsing="false" onAction="#addDestination"
             text="Add"/>
     <Button fx:id="deleteDestinationBtn" layoutX="293.0" layoutY="408.0" mnemonicParsing="false"
-            onAction="#deleteDestinationBtn" text="Delete"/>
+            onAction="#deleteDestination" text="Delete"/>
     <Button fx:id="addPackageBtn" layoutX="769.0" layoutY="570.0" mnemonicParsing="false" onAction="#addPackage"
             text="Add"/>
     <Button fx:id="editPackageBtn" layoutX="891.0" layoutY="570.0" mnemonicParsing="false" onAction="#editPackage"
