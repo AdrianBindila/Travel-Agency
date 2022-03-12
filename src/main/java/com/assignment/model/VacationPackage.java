@@ -11,9 +11,9 @@ public class VacationPackage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-    @ManyToOne()
-    @JoinColumn(nullable = false)
+    private Integer vacation_id;
+    @ManyToOne
+    @JoinColumn(name = "destination_id",nullable = false)
     private Destination destination;
     @Column(unique = true, nullable = false)
     private String name;
@@ -37,7 +37,7 @@ public class VacationPackage {
     }
 
     public VacationPackage(Destination destination, String name, String price, String period, String details, String status, int seats) {
-        this.id = 0;
+        this.vacation_id = 0;
         this.destination = destination;
         this.name = name;
         this.price = price;
@@ -51,7 +51,7 @@ public class VacationPackage {
     public String toString() {
         return "VacationPackage{" +
                 "participants=" + participants +
-                ", id=" + id +
+                ", id=" + vacation_id +
                 ", destination=" + destination +
                 ", name='" + name + '\'' +
                 ", price='" + price + '\'' +

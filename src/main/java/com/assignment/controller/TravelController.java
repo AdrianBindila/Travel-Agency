@@ -3,6 +3,8 @@ package com.assignment.controller;
 import com.assignment.model.Destination;
 import com.assignment.model.VacationPackage;
 import com.assignment.service.TravelAgencyService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,47 +31,51 @@ public class TravelController implements Initializable {
     private Button deletePackageBtn;
 
     @FXML
-    private ListView<String> destinationListView;
+    private ListView<Destination> destinationListView;
 
     @FXML
     private Button editPackageBtn;
 
     @FXML
-    private TableView<?> packageTableView;
+    private TableView<VacationPackage> packageTableView;
 
     private TravelAgencyService travelAgencyService;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        loadDestinationList(travelAgencyService.viewDestinations());
-//        loadPackages(travelAgencyService.viewVacationPackages());
+        travelAgencyService = new TravelAgencyService();
+        loadDestinationList(travelAgencyService.viewDestinations());
+        loadPackages(travelAgencyService.viewVacationPackages());
     }
 
     @FXML
-    void addDestination(ActionEvent event) {
+    void addDestination() {
         TextInputDialog inputDialog = new TextInputDialog();
         inputDialog.setHeaderText("Add New Destination");
         inputDialog.setContentText("Destination: ");
         inputDialog.showAndWait();
         String destinationName = inputDialog.getEditor().getText();
         travelAgencyService.addDestination(destinationName);
-//        loadDestinationList(travelAgencyService.viewDestinations());
+        loadDestinationList(travelAgencyService.viewDestinations());
     }
 
     @FXML
     void addPackage(ActionEvent event) {
         //Create alert
-        Dialog<VacationPackage> dialog = createAddPackageDialog();
 
+        Dialog<VacationPackage> dialog = createAddPackageDialog(travelAgencyService.viewVacationPackages());
         Optional<VacationPackage> result = dialog.showAndWait();
         result.ifPresent((VacationPackage p) -> {
-            System.out.println(p.getName());
+            travelAgencyService.addPackage(p);
         });
     }
 
     @FXML
     void deleteDestination(ActionEvent event) {
-
+        Destination selectedDestination = destinationListView.getSelectionModel().getSelectedItem();
+        System.out.println(selectedDestination.getDestination_id());
+        travelAgencyService.deleteDestination(selectedDestination);
+        loadDestinationList(travelAgencyService.viewDestinations());
     }
 
     @FXML
@@ -83,12 +89,13 @@ public class TravelController implements Initializable {
     }
 
 
-    private Dialog<VacationPackage> createAddPackageDialog() {
+    private Dialog<VacationPackage> createAddPackageDialog(List<VacationPackage> vacationPackages) {
         Dialog<VacationPackage> dialog = new Dialog<>();
         dialog.setHeaderText("Add New Package");
 
         DialogPane dialogPane = dialog.getDialogPane();
         dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
 
         TextField destination = new TextField();
         destination.setPromptText("destination");
@@ -118,13 +125,25 @@ public class TravelController implements Initializable {
 
 
     private void loadDestinationList(List<Destination> destinationList) {
-//        ArrayList<String> list= new ArrayList<String>(destinationList.stream().map(Destination::getName).toList());
-//        ObservableList<String> destinations = FXCollections.observableArrayList();
-//        destinationListView.setItems();
+        destinationListView.setCellFactory(lv -> new ListCell<>() {
+            @Override
+            public void updateItem(Destination destination, boolean empty) {
+                super.updateItem(destination, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    String text = destination.getName();
+                    setText(text);
+                }
+            }
+        });
+        ObservableList<Destination> observableList = FXCollections.observableList(destinationList);
+        destinationListView.setItems(observableList);
     }
 
     private void loadPackages(List<VacationPackage> packageList) {
-
+        packageTableView.getItems().removeAll();
+        packageTableView.setItems(FXCollections.observableArrayList(packageList));
     }
 
 }

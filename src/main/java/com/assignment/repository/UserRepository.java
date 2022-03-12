@@ -11,9 +11,10 @@ import static com.assignment.repository.Utils.entityManagerFactory;
 
 @Transactional
 public class UserRepository {
-    private final EntityManager entityManager = entityManagerFactory.createEntityManager();
+
 
     public void insert(User user) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(user);
         entityManager.getTransaction().commit();
@@ -21,6 +22,7 @@ public class UserRepository {
     }
 
     public User findLogin(String username, String password) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         Query query = entityManager.
                 createQuery("select u from User u where u.username like :username and u.password like :password")
                 .setParameter("username", username)
@@ -35,6 +37,7 @@ public class UserRepository {
     }
 
     public String findUsername(String username) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         Query query = entityManager.
                 createQuery("select u.username from User u where u.username like :username")
                 .setParameter("username", username);
@@ -48,6 +51,7 @@ public class UserRepository {
     }
 
     public String findEmail(String email) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         Query query = entityManager.
                 createQuery("select u.email from User u where u.email like :email")
                 .setParameter("email", email);

@@ -8,7 +8,7 @@ import java.util.Set;
 public class Destination {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer destination_id;
 
     public String getName() {
         return name;
@@ -16,20 +16,25 @@ public class Destination {
 
     @Column(unique = true)
     private String name;
-    @OneToMany(mappedBy = "destination")
+
+    @OneToMany(mappedBy = "destination", cascade = CascadeType.MERGE)
     private Set<VacationPackage> vacationPackages;
 
     public Destination() {
     }
 
     public Destination(String name) {
-        this.id = null;
+        this.destination_id = null;
         this.name = name;
     }
 
     public Destination(String name, Set<VacationPackage> vacationPackages) {
-        this.id = null;
+        this.destination_id = null;
         this.name = name;
         this.vacationPackages = vacationPackages;
+    }
+
+    public Integer getDestination_id() {
+        return this.destination_id;
     }
 }

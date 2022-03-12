@@ -1,6 +1,7 @@
 package com.assignment.service;
 
 import com.assignment.model.Destination;
+import com.assignment.model.VacationPackage;
 
 import java.util.List;
 
@@ -14,17 +15,17 @@ public interface TravelAgencyInterface {
 
     void addDestination(String destinationName);
 
-    void addPackage(Destination d, Package p);
+    void addPackage(VacationPackage p);
 
-    void editPackage(Package p);
+    void editPackage(VacationPackage p);
 
-    void deletePackage(Package p);
+    void deletePackage(VacationPackage p);
 
     void getVacationPackages(Status s);
 
     void deleteDestination(Destination d);
 
-    List<Package> viewVacationPackages();
+    List<VacationPackage> viewVacationPackages();
 
     List<Destination> viewDestinations();
 }

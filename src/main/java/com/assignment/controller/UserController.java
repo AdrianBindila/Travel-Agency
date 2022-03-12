@@ -44,9 +44,15 @@ public class UserController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println(Utils.currentUser);
-        //TODO - populate bookings table
+        //TODO - populate vacation package table - only those that aren't full
         //TODO - populate Destination filter
         //TODO - populate price filter
+    }
+    private void loadBookings(){
+
+    }
+    private void loadDestinations(){
+
     }
 
     @FXML
@@ -66,7 +72,7 @@ public class UserController implements Initializable {
 
     @FXML
     void removeFilter(ActionEvent event) {
-
+        //on select deselect other filters
     }
 
     @FXML
