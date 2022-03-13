@@ -11,7 +11,7 @@ public class Destination {
     private Integer destination_id;
     @Column(unique = true)
     private String name;
-    @OneToMany(mappedBy = "destination", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "destination", cascade = CascadeType.ALL)
     private Set<VacationPackage> vacationPackages;
 
     public Destination() {

@@ -16,8 +16,6 @@ public interface TravelAgencyInterface {
 
     void deletePackage(VacationPackage p);
 
-    void getVacationPackages();
-
     void deleteDestination(Destination d);
 
     List<VacationPackage> viewVacationPackages();

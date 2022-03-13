@@ -1,6 +1,7 @@
 package com.assignment.repository;
 
 import com.assignment.model.VacationPackage;
+import org.hibernate.Session;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
@@ -34,6 +35,15 @@ public class VacationPackageRepository {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         entityManager.remove(entityManager.find(VacationPackage.class,p.getId()));
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
+    public void updatePackage(VacationPackage p){
+        EntityManager entityManager= entityManagerFactory.createEntityManager();
+        entityManager.detach(entityManager.find(VacationPackage.class,p.getId()));
+        entityManager.getTransaction().begin();
+        entityManager.merge(p);
         entityManager.getTransaction().commit();
         entityManager.close();
     }

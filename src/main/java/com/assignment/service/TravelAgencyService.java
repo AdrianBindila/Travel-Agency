@@ -36,17 +36,12 @@ public class TravelAgencyService implements TravelAgencyInterface {
 
     @Override
     public void editPackage(VacationPackage p) {
-
+        vacationPackageRepository.updatePackage(p);
     }
 
     @Override
     public void deletePackage(VacationPackage p) {
         vacationPackageRepository.deletePackage(p);
-    }
-
-    @Override
-    public void getVacationPackages() {
-
     }
 
     @Override
@@ -65,7 +60,7 @@ public class TravelAgencyService implements TravelAgencyInterface {
     }
 
     public VacationPackage makePackageFromFields(Destination destination, String name, String price, String dateFrom, String dateTo, String details, String seats) {
-        String period = dateFrom + " - " + dateTo;
+        String period = dateFrom + " / " + dateTo;
         int noOfSeats = 0;
         try {
             noOfSeats = Integer.parseInt(seats);

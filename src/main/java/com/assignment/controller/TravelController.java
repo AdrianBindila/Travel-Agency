@@ -4,7 +4,6 @@ import com.assignment.model.Destination;
 import com.assignment.model.VacationPackage;
 import com.assignment.service.TravelAgencyService;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,10 +13,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.util.Callback;
+import javafx.util.Pair;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -62,13 +63,13 @@ public class TravelController implements Initializable {
     }
 
     @FXML
-    void addPackage(ActionEvent event) {
+    void addPackage() {
         Destination selectedDestination = destinationListView.getSelectionModel().getSelectedItem();
         if (selectedDestination != null) {
             Dialog<VacationPackage> dialog = createAddPackageDialog(selectedDestination);
             Optional<VacationPackage> result = dialog.showAndWait();
-            result.ifPresent((VacationPackage p) -> {
-                travelAgencyService.addPackage(p);
+            result.ifPresent(vacationPackage -> {
+                travelAgencyService.addPackage(vacationPackage);
                 loadPackages();
             });
         } else {
@@ -79,18 +80,19 @@ public class TravelController implements Initializable {
     }
 
     @FXML
-    void deleteDestination(ActionEvent event) {
+    void deleteDestination() {
         Destination selectedDestination = destinationListView.getSelectionModel().getSelectedItem();
         if (selectedDestination != null) {
             travelAgencyService.deleteDestination(selectedDestination);
             loadDestinationList();
+            loadPackages();
         }
     }
 
     @FXML
-    void deletePackage(ActionEvent event) {
+    void deletePackage() {
         VacationPackage selectedPackage = packageTableView.getSelectionModel().getSelectedItem();
-        if(selectedPackage!=null){
+        if (selectedPackage != null) {
             travelAgencyService.deletePackage(selectedPackage);
             loadPackages();
         }
@@ -98,7 +100,62 @@ public class TravelController implements Initializable {
 
     @FXML
     void editPackage(ActionEvent event) {
+        VacationPackage selectedVacationPackage = packageTableView.getSelectionModel().getSelectedItem();
+        if (selectedVacationPackage != null) {
+            Dialog<VacationPackage> dialog = createEditPackageDialog(selectedVacationPackage);
+            Optional<VacationPackage> result = dialog.showAndWait();
+            result.ifPresent(vacationPackage -> {
+                travelAgencyService.editPackage(vacationPackage);
+                loadPackages();
+            });
+        } else {
+            Alert vacationError = new Alert(Alert.AlertType.ERROR, "Select a vacation first", ButtonType.OK);
+            vacationError.showAndWait();
+        }
+    }
 
+    private Dialog<VacationPackage> createEditPackageDialog(VacationPackage selectedVacationPackage) {
+        Dialog<VacationPackage> dialog = new Dialog<>();
+        dialog.setHeaderText("Edit Package");
+
+        DialogPane dialogPane = dialog.getDialogPane();
+        dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        Text destination = new Text(selectedVacationPackage.getDestination().getName());
+
+        TextField name = new TextField();
+        name.setPromptText("name");
+        name.setText(selectedVacationPackage.getName());
+
+        TextField price = new TextField();
+        price.setPromptText("price");
+        price.setText(selectedVacationPackage.getPrice());
+
+        Pair<Date,Date> dates=selectedVacationPackage.getDatesFromPeriod();
+        Date dateFromString = dates.getKey();
+        Date dateToString = dates.getValue();
+
+        DatePicker dateFrom = new DatePicker(dateFromString.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        DatePicker dateTo = new DatePicker(dateToString.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+
+        TextField details = new TextField();
+        details.setPromptText("details");
+        details.setText(selectedVacationPackage.getDetails());
+
+
+        TextField seats = new TextField();
+        seats.setPromptText("seats");
+        seats.setText(String.valueOf(selectedVacationPackage.getSeats()));
+
+        dialogPane.setContent(new VBox(8, destination, name, price, dateFrom, dateTo, details, seats));
+        dialog.setResultConverter((ButtonType b) -> {
+            if (b == ButtonType.OK) {
+                return travelAgencyService.makePackageFromFields(selectedVacationPackage.getDestination(), name.getText(), price.getText(), dateFrom.getValue().toString(), dateTo.getValue().toString(), details.getText(), seats.getText());
+            } else {
+                return new VacationPackage();
+            }
+        });
+        return dialog;
     }
 
     private Dialog<VacationPackage> createAddPackageDialog(Destination selectedDestination) {
@@ -112,38 +169,32 @@ public class TravelController implements Initializable {
 
         TextField name = new TextField();
         name.setPromptText("name");
-        name.setText("name");
 
         TextField price = new TextField();
         price.setPromptText("price");
-        price.setText("price");
+
         DatePicker dateFrom = new DatePicker(LocalDate.now());
         DatePicker dateTo = new DatePicker(LocalDate.now());
 
         TextField details = new TextField();
         details.setPromptText("details");
-        details.setText("haha");
-
 
         TextField seats = new TextField();
         seats.setPromptText("seats");
-        seats.setText("10");
 
         dialogPane.setContent(new VBox(8, destination, name, price, dateFrom, dateTo, details, seats));
         dialog.setResultConverter((ButtonType b) -> {
             if (b == ButtonType.OK) {
-                return travelAgencyService.makePackageFromFields(selectedDestination, name.getText(), price.getText(), dateFrom.toString(), dateTo.toString(), details.getText(), seats.getText());
+                return travelAgencyService.makePackageFromFields(selectedDestination, name.getText(), price.getText(), dateFrom.getValue().toString(), dateTo.getValue().toString(), details.getText(), seats.getText());
             } else {
                 return new VacationPackage();
             }
         });
-
-
         return dialog;
     }
 
     private void loadDestinationList() {
-        List<Destination> destinationList=travelAgencyService.viewDestinations();
+        List<Destination> destinationList = travelAgencyService.viewDestinations();
         destinationListView.setCellFactory(lv -> new ListCell<>() {
             @Override
             public void updateItem(Destination destination, boolean empty) {
@@ -168,9 +219,9 @@ public class TravelController implements Initializable {
 
     private void configurePackageTableView() {
         destinationCol.setCellValueFactory(param -> { // put the destination's name, not the object reference
-            if (param.getValue()!=null){
+            if (param.getValue() != null) {
                 return new SimpleStringProperty(param.getValue().getDestination().getName());
-            }else {
+            } else {
                 return new SimpleStringProperty("<No destination>");
             }
         });

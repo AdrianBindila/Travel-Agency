@@ -1,9 +1,14 @@
 package com.assignment.model;
 
 import com.assignment.service.VacationStatus;
+import javafx.util.Pair;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 @Entity
 @Table(name = "VacationPackage")
@@ -66,6 +71,21 @@ public class VacationPackage {
 
     public String getPeriod() {
         return period;
+    }
+
+    public Pair<Date, Date> getDatesFromPeriod() {
+        StringTokenizer stringTokenizer = new StringTokenizer(this.period, " / ");
+        Date dateFrom = new Date();
+        Date dateTo = new Date();
+        try {
+            dateFrom = new SimpleDateFormat("yyyy-MM-dd").parse(stringTokenizer.nextToken());
+            stringTokenizer.nextToken();
+            dateTo = new SimpleDateFormat("yyyy-MM-dd").parse(stringTokenizer.nextToken());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return new Pair<>(dateFrom, dateTo);
     }
 
     public String getDetails() {
