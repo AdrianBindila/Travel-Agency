@@ -25,7 +25,15 @@ public class VacationPackageRepository {
     public void insertPackage(VacationPackage vacationPackage) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.persist(vacationPackage);
+        entityManager.merge(vacationPackage);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
+    public void deletePackage(VacationPackage p) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.remove(entityManager.find(VacationPackage.class,p.getId()));
         entityManager.getTransaction().commit();
         entityManager.close();
     }

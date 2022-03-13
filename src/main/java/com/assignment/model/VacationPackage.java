@@ -29,6 +29,7 @@ public class VacationPackage {
     private String status;
     @Column(nullable = false)
     private int seats;
+
     public VacationPackage() {
     }
 
@@ -43,8 +44,40 @@ public class VacationPackage {
         this.seats = seats;
     }
 
+    public Integer getId() {
+        return vacation_id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public Set<User> getParticipants() {
+        return participants;
+    }
+
+    public Destination getDestination() {
+        return destination;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public int getSeats() {
+        return seats;
     }
 
     @Override

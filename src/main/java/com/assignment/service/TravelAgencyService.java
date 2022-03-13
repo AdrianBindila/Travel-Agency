@@ -41,7 +41,7 @@ public class TravelAgencyService implements TravelAgencyInterface {
 
     @Override
     public void deletePackage(VacationPackage p) {
-
+        vacationPackageRepository.deletePackage(p);
     }
 
     @Override
