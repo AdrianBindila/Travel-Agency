@@ -3,7 +3,6 @@ package com.assignment.repository;
 import com.assignment.model.VacationPackage;
 
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +15,9 @@ public class VacationPackageRepository {
         List<VacationPackage> vacationPackages = entityManager.
                 createQuery("select v from VacationPackage v", VacationPackage.class).
                 getResultList();
-        if(vacationPackages!=null){
+        if (vacationPackages != null) {
             return new ArrayList<>(vacationPackages);
-        }
-        else {
+        } else {
             return new ArrayList<>();
         }
     }

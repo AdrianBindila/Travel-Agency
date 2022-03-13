@@ -50,7 +50,7 @@ public class DestinationRepository {
     public void deleteDestination(Destination d) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.remove(entityManager.find(Destination.class, d.getDestination_id()));
+        entityManager.remove(entityManager.find(Destination.class, d.getId()));
         entityManager.getTransaction().commit();
         entityManager.close();
     }

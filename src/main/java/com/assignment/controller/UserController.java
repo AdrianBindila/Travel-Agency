@@ -48,10 +48,12 @@ public class UserController implements Initializable {
         //TODO - populate Destination filter
         //TODO - populate price filter
     }
-    private void loadBookings(){
+
+    private void loadBookings() {//load only bookings that are not status fully booked
 
     }
-    private void loadDestinations(){
+
+    private void loadDestinations() {
 
     }
 

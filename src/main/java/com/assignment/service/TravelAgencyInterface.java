@@ -5,11 +5,6 @@ import com.assignment.model.VacationPackage;
 
 import java.util.List;
 
-enum Status {
-    NOT_BOOKED,
-    IN_PROGRESS,
-    BOOKED
-}
 
 public interface TravelAgencyInterface {
 
@@ -21,7 +16,7 @@ public interface TravelAgencyInterface {
 
     void deletePackage(VacationPackage p);
 
-    void getVacationPackages(Status s);
+    void getVacationPackages();
 
     void deleteDestination(Destination d);
 

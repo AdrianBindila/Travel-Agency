@@ -1,5 +1,7 @@
 package com.assignment.model;
 
+import com.assignment.service.VacationStatus;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -13,7 +15,7 @@ public class VacationPackage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer vacation_id;
     @ManyToOne
-    @JoinColumn(name = "destination_id",nullable = false)
+    @JoinColumn(name = "destination_id", nullable = false)
     private Destination destination;
     @Column(unique = true, nullable = false)
     private String name;
@@ -21,30 +23,28 @@ public class VacationPackage {
     private String price;
     @Column(nullable = false)
     private String period;
-    @Column(nullable = false)
+    @Column
     private String details;
-
-    public String getName() {
-        return name;
-    }
-
     @Column(nullable = false)
     private String status;
     @Column(nullable = false)
     private int seats;
-
     public VacationPackage() {
     }
 
-    public VacationPackage(Destination destination, String name, String price, String period, String details, String status, int seats) {
+    public VacationPackage(Destination destination, String name, String price, String period, String details, int seats) {
         this.vacation_id = 0;
         this.destination = destination;
         this.name = name;
         this.price = price;
         this.period = period;
         this.details = details;
-        this.status = status;
+        this.status = VacationStatus.NOT_BOOKED.label;
         this.seats = seats;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

@@ -9,14 +9,8 @@ public class Destination {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer destination_id;
-
-    public String getName() {
-        return name;
-    }
-
     @Column(unique = true)
     private String name;
-
     @OneToMany(mappedBy = "destination", cascade = CascadeType.MERGE)
     private Set<VacationPackage> vacationPackages;
 
@@ -34,7 +28,11 @@ public class Destination {
         this.vacationPackages = vacationPackages;
     }
 
-    public Integer getDestination_id() {
+    public String getName() {
+        return name;
+    }
+
+    public Integer getId() {
         return this.destination_id;
     }
 }
