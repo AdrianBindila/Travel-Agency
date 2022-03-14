@@ -23,9 +23,9 @@
     <TableView fx:id="packageTableView" layoutX="600.0" layoutY="128.0" maxHeight="400.0" maxWidth="650.0">
         <columns>
          <TableColumn fx:id="destinationCol" prefWidth="120.0" text="Destination" />
-            <TableColumn fx:id="nameCol" prefWidth="200.0" text="Name" />
+            <TableColumn fx:id="nameCol" prefWidth="75.0" text="Name" />
             <TableColumn fx:id="priceCol" prefWidth="75.0" text="Price" />
-            <TableColumn fx:id="periodCol" prefWidth="75.0" text="Period" />
+            <TableColumn fx:id="periodCol" prefWidth="200.0" text="Period" />
             <TableColumn fx:id="detailCol" prefWidth="75.0" text="Details" />
             <TableColumn fx:id="seatCol" prefWidth="75.0" text="Seats" />
         </columns>

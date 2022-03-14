@@ -37,7 +37,16 @@ public class VacationPackage {
 
     public VacationPackage() {
     }
-
+    public VacationPackage(Integer id,Destination destination, String name, String price, String period, String details, int seats) {
+        this.vacation_id = id;
+        this.destination = destination;
+        this.name = name;
+        this.price = price;
+        this.period = period;
+        this.details = details;
+        this.status = VacationStatus.NOT_BOOKED.label;
+        this.seats = seats;
+    }
     public VacationPackage(Destination destination, String name, String price, String period, String details, int seats) {
         this.vacation_id = 0;
         this.destination = destination;
@@ -79,12 +88,10 @@ public class VacationPackage {
         Date dateTo = new Date();
         try {
             dateFrom = new SimpleDateFormat("yyyy-MM-dd").parse(stringTokenizer.nextToken());
-            stringTokenizer.nextToken();
             dateTo = new SimpleDateFormat("yyyy-MM-dd").parse(stringTokenizer.nextToken());
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return new Pair<>(dateFrom, dateTo);
     }
 

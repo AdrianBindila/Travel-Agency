@@ -99,13 +99,14 @@ public class TravelController implements Initializable {
     }
 
     @FXML
-    void editPackage(ActionEvent event) {
+    void editPackage() {
         VacationPackage selectedVacationPackage = packageTableView.getSelectionModel().getSelectedItem();
         if (selectedVacationPackage != null) {
             Dialog<VacationPackage> dialog = createEditPackageDialog(selectedVacationPackage);
             Optional<VacationPackage> result = dialog.showAndWait();
-            result.ifPresent(vacationPackage -> {
-                travelAgencyService.editPackage(vacationPackage);
+            result.ifPresent(vP -> {
+                System.out.println(vP.getId());
+                travelAgencyService.editPackage(vP);
                 loadPackages();
             });
         } else {
@@ -150,7 +151,7 @@ public class TravelController implements Initializable {
         dialogPane.setContent(new VBox(8, destination, name, price, dateFrom, dateTo, details, seats));
         dialog.setResultConverter((ButtonType b) -> {
             if (b == ButtonType.OK) {
-                return travelAgencyService.makePackageFromFields(selectedVacationPackage.getDestination(), name.getText(), price.getText(), dateFrom.getValue().toString(), dateTo.getValue().toString(), details.getText(), seats.getText());
+                return travelAgencyService.makePackageFromFields(selectedVacationPackage.getId(),selectedVacationPackage.getDestination(), name.getText(), price.getText(), dateFrom.getValue().toString(), dateTo.getValue().toString(), details.getText(), seats.getText());
             } else {
                 return new VacationPackage();
             }

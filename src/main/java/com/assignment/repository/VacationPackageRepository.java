@@ -41,7 +41,6 @@ public class VacationPackageRepository {
 
     public void updatePackage(VacationPackage p){
         EntityManager entityManager= entityManagerFactory.createEntityManager();
-        entityManager.detach(entityManager.find(VacationPackage.class,p.getId()));
         entityManager.getTransaction().begin();
         entityManager.merge(p);
         entityManager.getTransaction().commit();

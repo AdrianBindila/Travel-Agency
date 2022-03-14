@@ -59,6 +59,18 @@ public class TravelAgencyService implements TravelAgencyInterface {
         return destinationRepository.getAll();
     }
 
+    public VacationPackage makePackageFromFields(Integer id, Destination destination, String name, String price, String dateFrom, String dateTo, String details, String seats) {
+        String period = dateFrom + " / " + dateTo;
+        int noOfSeats = 0;
+        try {
+            noOfSeats = Integer.parseInt(seats);
+        } catch (NumberFormatException e) {
+            Alert numberError = new Alert(Alert.AlertType.ERROR, "Seats must be a number", ButtonType.OK);
+            numberError.showAndWait();
+        }
+        return new VacationPackage(id, destination, name, price, period, details, noOfSeats);
+    }
+
     public VacationPackage makePackageFromFields(Destination destination, String name, String price, String dateFrom, String dateTo, String details, String seats) {
         String period = dateFrom + " / " + dateTo;
         int noOfSeats = 0;
