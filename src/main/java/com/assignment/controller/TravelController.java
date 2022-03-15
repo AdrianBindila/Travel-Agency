@@ -40,6 +40,8 @@ public class TravelController implements Initializable {
     private TableColumn<VacationPackage, String> detailCol;
     @FXML
     private TableColumn<VacationPackage, Integer> seatCol;
+    @FXML
+    private TableColumn<VacationPackage, String> statusCol;
 
     private TravelAgencyService travelAgencyService;
 
@@ -231,5 +233,6 @@ public class TravelController implements Initializable {
         periodCol.setCellValueFactory(new PropertyValueFactory<>("period"));
         detailCol.setCellValueFactory(new PropertyValueFactory<>("details"));
         seatCol.setCellValueFactory(new PropertyValueFactory<>("seats"));
+        statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 }

@@ -7,37 +7,46 @@ import javax.persistence.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 
 @Entity
 @Table(name = "VacationPackage")
 public class VacationPackage {
-    @ManyToMany(cascade = CascadeType.ALL)
-    Set<User> participants;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer vacation_id;
+
     @ManyToOne
     @JoinColumn(name = "destination_id", nullable = false)
     private Destination destination;
+
     @Column(unique = true, nullable = false)
     private String name;
+
     @Column(nullable = false)
     private String price;
+
     @Column(nullable = false)
     private String period;
+
     @Column
     private String details;
+
     @Column(nullable = false)
     private String status;
+
     @Column(nullable = false)
     private int seats;
 
+    @ManyToMany(mappedBy = "vacationPackages")
+    Set<User> participants = new HashSet<>();
+
     public VacationPackage() {
     }
-    public VacationPackage(Integer id,Destination destination, String name, String price, String period, String details, int seats) {
+
+    public VacationPackage(Integer id, Destination destination, String name, String price, String period, String details, int seats) {
         this.vacation_id = id;
         this.destination = destination;
         this.name = name;
@@ -47,6 +56,7 @@ public class VacationPackage {
         this.status = VacationStatus.NOT_BOOKED.label;
         this.seats = seats;
     }
+
     public VacationPackage(Destination destination, String name, String price, String period, String details, int seats) {
         this.vacation_id = 0;
         this.destination = destination;
@@ -120,5 +130,9 @@ public class VacationPackage {
                 ", status='" + status + '\'' +
                 ", seats=" + seats +
                 '}';
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

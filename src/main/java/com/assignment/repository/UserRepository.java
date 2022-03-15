@@ -1,17 +1,19 @@
 package com.assignment.repository;
 
 import com.assignment.model.User;
+import com.assignment.model.VacationPackage;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import java.util.Set;
+
 import static com.assignment.repository.Utils.entityManagerFactory;
 
 @Transactional
 public class UserRepository {
-
 
     public void insert(User user) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -62,5 +64,23 @@ public class UserRepository {
             foundEmail = null;
         }
         return foundEmail;
+    }
+
+    public void addBooking(User u,VacationPackage p) {
+        EntityManager entityManager= entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        u.getVacationPackages().add(p);
+        entityManager.merge(u);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
+    public Set<VacationPackage> getUserBookings(User u){
+        EntityManager entityManager= entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        Set<VacationPackage> bookings=entityManager.find(User.class,u.getId()).getVacationPackages();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return bookings;
     }
 }

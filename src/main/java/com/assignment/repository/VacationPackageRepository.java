@@ -1,11 +1,12 @@
 package com.assignment.repository;
 
 import com.assignment.model.VacationPackage;
-import org.hibernate.Session;
+import com.assignment.service.VacationStatus;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.assignment.repository.Utils.entityManagerFactory;
 
@@ -22,7 +23,17 @@ public class VacationPackageRepository {
             return new ArrayList<>();
         }
     }
-
+    public List<VacationPackage> getAllAvailable(){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        List<VacationPackage> vacationPackages = entityManager.
+                createQuery("select v from VacationPackage v where v.status not like 'BOOKED'", VacationPackage.class).
+                getResultList();
+        if (vacationPackages != null) {
+            return new ArrayList<>(vacationPackages);
+        } else {
+            return new ArrayList<>();
+        }
+    }
     public void insertPackage(VacationPackage vacationPackage) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
@@ -46,4 +57,5 @@ public class VacationPackageRepository {
         entityManager.getTransaction().commit();
         entityManager.close();
     }
+
 }

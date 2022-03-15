@@ -1,7 +1,7 @@
 package com.assignment.model;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -9,7 +9,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer user_id;
 
     @Column(nullable = false)
     private String email;
@@ -26,16 +26,19 @@ public class User {
     @Column(nullable = false)
     private String lastname;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "participants")
-    private Set<VacationPackage> bookings;
-    @ManyToMany(mappedBy = "participants")
-    private Collection<VacationPackage> vacationPackages;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "User_VacationPackage",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "vacation_id")}
+    )
+    private Set<VacationPackage> vacationPackages = new HashSet<>();
 
     public User() {
     }
 
     public User(String email, String username, String password, String firstName, String lastname) {
-        this.id = null;
+        this.user_id = null;
         this.email = email;
         this.username = username;
         this.password = password;
@@ -44,17 +47,16 @@ public class User {
     }
 
     public User(String email, String username, String password, String firstName, String lastname, Set<VacationPackage> bookings) {
-        this.id = null;
+        this.user_id = null;
         this.email = email;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastname = lastname;
-        this.bookings = bookings;
     }
 
     public Integer getId() {
-        return id;
+        return user_id;
     }
 
     public String getEmail() {
@@ -77,11 +79,11 @@ public class User {
         return lastname;
     }
 
-    public Collection<VacationPackage> getVacationPackages() {
+    public Set<VacationPackage> getVacationPackages() {
         return vacationPackages;
     }
 
-    public void setVacationPackages(Collection<VacationPackage> vacationPackages) {
+    public void setVacationPackages(Set<VacationPackage> vacationPackages) {
         this.vacationPackages = vacationPackages;
     }
 }
