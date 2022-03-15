@@ -1,13 +1,16 @@
 package com.assignment.service;
 
+import com.assignment.model.Destination;
 import com.assignment.model.User;
 import com.assignment.model.VacationPackage;
 import com.assignment.repository.UserRepository;
 import com.assignment.repository.VacationPackageRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class UserService {
     private final User user;
@@ -16,25 +19,49 @@ public class UserService {
 
     public UserService(User user) {
         this.user = user;
-        userRepository=new UserRepository();
-        vacationPackageRepository= new VacationPackageRepository();
+        userRepository = new UserRepository();
+        vacationPackageRepository = new VacationPackageRepository();
     }
 
-    public List<VacationPackage> getPackages() {
-        return vacationPackageRepository.getAllAvailable();
+    public List<VacationPackage> getUserPackages() {
+        List<VacationPackage> userPackages = vacationPackageRepository.getAllAvailable();
+        List<VacationPackage> userBookings = new ArrayList<>(getUserBookings());
+
+        return userPackages.stream()
+                .filter(vacationPackage -> userBookings.stream()
+                        .noneMatch(booking -> booking.getId().equals(vacationPackage.getId())))
+                .collect(Collectors.toList());
     }
 
-    public void addPackage(User u,VacationPackage p){
-        userRepository.addBooking(u,p);
-        if(p.getParticipants().size()>p.getSeats()){
+    public List<VacationPackage> filterByDestination(List<VacationPackage> list, Destination destination) {
+        return list.stream().filter(
+                        l -> Objects.equals(l.getDestination().getName(), destination.getName()))
+                .collect(Collectors.toList());
+    }
+
+    public List<VacationPackage> filterByPrice(List<VacationPackage> list, int price) {
+        return list.stream().filter(
+                l -> l.getPrice() == price
+        ).collect(Collectors.toList());
+    }
+
+    public List<VacationPackage> filterByPeriod(List<VacationPackage> list, String period) {
+        return list.stream().filter(
+                l -> Objects.equals(l.getPeriod(), period)
+        ).collect(Collectors.toList());
+    }
+
+    public void addPackage(User u, VacationPackage p) {
+        userRepository.addBooking(u, p);
+        if (p.getParticipants().size() > p.getSeats()) {
             p.setStatus(VacationStatus.BOOKED.label);
-        }else if(p.getParticipants().size()>0 && !Objects.equals(p.getStatus(), VacationStatus.IN_PROGRESS.label)){
+        } else if (p.getParticipants().size() > 0 && !Objects.equals(p.getStatus(), VacationStatus.IN_PROGRESS.label)) {
             p.setStatus(VacationStatus.IN_PROGRESS.label);
         }
         vacationPackageRepository.updatePackage(p);
     }
 
-    public Set<VacationPackage> getUserBookings(){
+    public Set<VacationPackage> getUserBookings() {
         return userRepository.getUserBookings(this.user);
     }
 }

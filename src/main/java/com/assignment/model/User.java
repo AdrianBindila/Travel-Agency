@@ -26,7 +26,7 @@ public class User {
     @Column(nullable = false)
     private String lastname;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "User_VacationPackage",
             joinColumns = {@JoinColumn(name = "user_id")},

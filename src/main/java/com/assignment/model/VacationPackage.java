@@ -26,7 +26,7 @@ public class VacationPackage {
     private String name;
 
     @Column(nullable = false)
-    private String price;
+    private int price;
 
     @Column(nullable = false)
     private String period;
@@ -46,7 +46,7 @@ public class VacationPackage {
     public VacationPackage() {
     }
 
-    public VacationPackage(Integer id, Destination destination, String name, String price, String period, String details, int seats) {
+    public VacationPackage(Integer id, Destination destination, String name, int price, String period, String details, int seats) {
         this.vacation_id = id;
         this.destination = destination;
         this.name = name;
@@ -57,7 +57,7 @@ public class VacationPackage {
         this.seats = seats;
     }
 
-    public VacationPackage(Destination destination, String name, String price, String period, String details, int seats) {
+    public VacationPackage(Destination destination, String name, int price, String period, String details, int seats) {
         this.vacation_id = 0;
         this.destination = destination;
         this.name = name;
@@ -84,7 +84,7 @@ public class VacationPackage {
         return destination;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 

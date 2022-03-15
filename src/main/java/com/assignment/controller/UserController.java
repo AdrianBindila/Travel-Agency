@@ -67,12 +67,11 @@ public class UserController implements Initializable {
         userService = new UserService(currentUser);
         configurePackageTableView();
         loadPackages();
-
 //        loadDestinations();
     }
 
-    private void loadPackages() {//load only bookings that are not status fully booked
-        List<VacationPackage> packageList= userService.getPackages();
+    private void loadPackages() {//load only bookings that are not status fully booked or booked by the user
+        List<VacationPackage> packageList= userService.getUserPackages();
         packageTableView.getItems().removeAll();
         packageTableView.setItems(FXCollections.observableArrayList(packageList));
     }

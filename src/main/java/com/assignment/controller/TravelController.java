@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -117,6 +118,11 @@ public class TravelController implements Initializable {
         }
     }
 
+    @FXML
+    void cancel(ActionEvent event) throws IOException {
+        Utils.switchScene(event, "login.fxml", Utils.loginTitle);
+    }
+
     private Dialog<VacationPackage> createEditPackageDialog(VacationPackage selectedVacationPackage) {
         Dialog<VacationPackage> dialog = new Dialog<>();
         dialog.setHeaderText("Edit Package");
@@ -132,9 +138,9 @@ public class TravelController implements Initializable {
 
         TextField price = new TextField();
         price.setPromptText("price");
-        price.setText(selectedVacationPackage.getPrice());
+        price.setText(String.valueOf(selectedVacationPackage.getPrice()));
 
-        Pair<Date,Date> dates=selectedVacationPackage.getDatesFromPeriod();
+        Pair<Date, Date> dates = selectedVacationPackage.getDatesFromPeriod();
         Date dateFromString = dates.getKey();
         Date dateToString = dates.getValue();
 
@@ -153,7 +159,7 @@ public class TravelController implements Initializable {
         dialogPane.setContent(new VBox(8, destination, name, price, dateFrom, dateTo, details, seats));
         dialog.setResultConverter((ButtonType b) -> {
             if (b == ButtonType.OK) {
-                return travelAgencyService.makePackageFromFields(selectedVacationPackage.getId(),selectedVacationPackage.getDestination(), name.getText(), price.getText(), dateFrom.getValue().toString(), dateTo.getValue().toString(), details.getText(), seats.getText());
+                return travelAgencyService.makePackageFromFields(selectedVacationPackage.getId(), selectedVacationPackage.getDestination(), name.getText(), Integer.parseInt(price.getText()), dateFrom.getValue().toString(), dateTo.getValue().toString(), details.getText(), seats.getText());
             } else {
                 return new VacationPackage();
             }
@@ -188,7 +194,7 @@ public class TravelController implements Initializable {
         dialogPane.setContent(new VBox(8, destination, name, price, dateFrom, dateTo, details, seats));
         dialog.setResultConverter((ButtonType b) -> {
             if (b == ButtonType.OK) {
-                return travelAgencyService.makePackageFromFields(selectedDestination, name.getText(), price.getText(), dateFrom.getValue().toString(), dateTo.getValue().toString(), details.getText(), seats.getText());
+                return travelAgencyService.makePackageFromFields(selectedDestination, name.getText(), Integer.parseInt(price.getText()), dateFrom.getValue().toString(), dateTo.getValue().toString(), details.getText(), seats.getText());
             } else {
                 return new VacationPackage();
             }

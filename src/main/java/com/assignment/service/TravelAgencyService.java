@@ -59,7 +59,7 @@ public class TravelAgencyService implements TravelAgencyInterface {
         return destinationRepository.getAll();
     }
 
-    public VacationPackage makePackageFromFields(Integer id, Destination destination, String name, String price, String dateFrom, String dateTo, String details, String seats) {
+    public VacationPackage makePackageFromFields(Integer id, Destination destination, String name, int price, String dateFrom, String dateTo, String details, String seats) {
         String period = dateFrom + " / " + dateTo;
         int noOfSeats = 0;
         try {
@@ -71,7 +71,7 @@ public class TravelAgencyService implements TravelAgencyInterface {
         return new VacationPackage(id, destination, name, price, period, details, noOfSeats);
     }
 
-    public VacationPackage makePackageFromFields(Destination destination, String name, String price, String dateFrom, String dateTo, String details, String seats) {
+    public VacationPackage makePackageFromFields(Destination destination, String name, int price, String dateFrom, String dateTo, String details, String seats) {
         String period = dateFrom + " / " + dateTo;
         int noOfSeats = 0;
         try {
