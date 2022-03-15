@@ -1,9 +1,11 @@
 package com.assignment.controller;
 
+import com.assignment.model.Destination;
 import com.assignment.model.VacationPackage;
 import com.assignment.service.UserService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,31 +22,28 @@ import static com.assignment.controller.Utils.currentUser;
 public class UserController implements Initializable {
 
     @FXML
-    private MenuButton FilterMenuBtn;
+    private Button applyDestinationBtn;
 
     @FXML
-    private Button applyBtn;
+    private ListView<Destination> destinationListView;
 
     @FXML
-    private Button bookBtn;
+    private Button applyPriceBtn;
 
     @FXML
-    private Button cancelBtn;
+    private TextField priceFieldMin;
 
     @FXML
-    private ListView<?> destinationList;
+    private TextField priceFieldMax;
+
+    @FXML
+    private Button applyPeriodBtn;
 
     @FXML
     private DatePicker fromDate;
 
     @FXML
-    private Slider priceSlider;
-
-    @FXML
     private DatePicker toDate;
-
-    @FXML
-    private Button userBookingsBtn;
 
     @FXML
     private TableView<VacationPackage> packageTableView;//User table doesn't contain status, only the travel agency can see that.
@@ -60,6 +59,7 @@ public class UserController implements Initializable {
     private TableColumn<VacationPackage, String> detailCol;
     @FXML
     private TableColumn<VacationPackage, Integer> seatCol;
+
     private UserService userService;
 
     @Override
@@ -67,11 +67,11 @@ public class UserController implements Initializable {
         userService = new UserService(currentUser);
         configurePackageTableView();
         loadPackages();
-//        loadDestinations();
+        loadDestinations();
     }
 
     private void loadPackages() {//load only bookings that are not status fully booked or booked by the user
-        List<VacationPackage> packageList= userService.getUserPackages();
+        List<VacationPackage> packageList = userService.getUserPackages();
         packageTableView.getItems().removeAll();
         packageTableView.setItems(FXCollections.observableArrayList(packageList));
     }
@@ -93,35 +93,60 @@ public class UserController implements Initializable {
 
     @FXML
     void bookVacation(ActionEvent event) {
-        userService.addPackage(currentUser,packageTableView.getSelectionModel().getSelectedItem());
-        Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"A new booking has been added!");
+        userService.addPackage(currentUser, packageTableView.getSelectionModel().getSelectedItem());
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "A new booking has been added!");
         alert.showAndWait();
         loadPackages();
     }
 
     private void loadDestinations() {
-
+        List<Destination> destinationList = userService.viewDestinations();
+        destinationListView.setCellFactory(lv -> new ListCell<>() {
+            @Override
+            public void updateItem(Destination destination, boolean empty) {
+                super.updateItem(destination, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    String text = destination.getName();
+                    setText(text);
+                }
+            }
+        });
+        ObservableList<Destination> observableList = FXCollections.observableList(destinationList);
+        destinationListView.setItems(observableList);
     }
 
     @FXML
-    void applyFilter(ActionEvent event) {
-
+    void applyDestinationFilter(ActionEvent event) {
+        Destination destination = destinationListView.getSelectionModel().getSelectedItem();
+        List<VacationPackage> resultList = userService.filterByDestination(packageTableView.getItems(), destination);
+        ObservableList<VacationPackage> observableList = FXCollections.observableList(resultList);
+        packageTableView.setItems(observableList);
     }
 
     @FXML
-    void removeFilter(ActionEvent event) {
-        //on select deselect other filters
-
+    void applyPriceFilter(ActionEvent event) {
+        int priceLow = Integer.parseInt(priceFieldMin.getText());
+        int priceHigh = Integer.parseInt(priceFieldMax.getText());
+        List<VacationPackage> resultList = userService.filterByPrice(packageTableView.getItems(), priceLow, priceHigh);
+        ObservableList<VacationPackage> observableList = FXCollections.observableList(resultList);
+        packageTableView.setItems(observableList);
     }
 
     @FXML
-    void setFromDate(ActionEvent event) {
-
+    void applyPeriodFilter(ActionEvent event) {
+        String dateFrom = fromDate.getValue().toString();
+        String dateTo = toDate.getValue().toString();
+        String period = dateFrom + " / " + dateTo;
+        List<VacationPackage> resultList = userService.filterByPeriod(packageTableView.getItems(), period);
+        ObservableList<VacationPackage> observableList = FXCollections.observableList(resultList);
+        packageTableView.setItems(observableList);
     }
 
     @FXML
-    void setToDate(ActionEvent event) {
-
+    void reset(){
+        loadPackages();
     }
 
     @FXML

@@ -3,6 +3,7 @@ package com.assignment.service;
 import com.assignment.model.Destination;
 import com.assignment.model.User;
 import com.assignment.model.VacationPackage;
+import com.assignment.repository.DestinationRepository;
 import com.assignment.repository.UserRepository;
 import com.assignment.repository.VacationPackageRepository;
 
@@ -39,9 +40,9 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<VacationPackage> filterByPrice(List<VacationPackage> list, int price) {
+    public List<VacationPackage> filterByPrice(List<VacationPackage> list, int priceLow, int priceHigh) {
         return list.stream().filter(
-                l -> l.getPrice() == price
+                l -> l.getPrice() >= priceLow && l.getPrice() <= priceHigh
         ).collect(Collectors.toList());
     }
 
@@ -52,16 +53,22 @@ public class UserService {
     }
 
     public void addPackage(User u, VacationPackage p) {
-        userRepository.addBooking(u, p);
-        if (p.getParticipants().size() > p.getSeats()) {
+
+        if (p.getParticipants().size() >= p.getSeats()) {
             p.setStatus(VacationStatus.BOOKED.label);
         } else if (p.getParticipants().size() > 0 && !Objects.equals(p.getStatus(), VacationStatus.IN_PROGRESS.label)) {
             p.setStatus(VacationStatus.IN_PROGRESS.label);
         }
-        vacationPackageRepository.updatePackage(p);
+        userRepository.addBooking(u, p);
+//        vacationPackageRepository.updatePackage(p);
     }
 
     public Set<VacationPackage> getUserBookings() {
         return userRepository.getUserBookings(this.user);
+    }
+
+    public List<Destination> viewDestinations() {
+        DestinationRepository destinationRepository = new DestinationRepository();
+        return destinationRepository.getAll();
     }
 }

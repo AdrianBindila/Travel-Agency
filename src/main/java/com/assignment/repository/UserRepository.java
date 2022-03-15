@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
-
 import java.util.Set;
 
 import static com.assignment.repository.Utils.entityManagerFactory;
@@ -66,8 +65,8 @@ public class UserRepository {
         return foundEmail;
     }
 
-    public void addBooking(User u,VacationPackage p) {
-        EntityManager entityManager= entityManagerFactory.createEntityManager();
+    public void addBooking(User u, VacationPackage p) {//TODO: fix duplicate entry
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         u.getVacationPackages().add(p);
         entityManager.merge(u);
@@ -75,10 +74,10 @@ public class UserRepository {
         entityManager.close();
     }
 
-    public Set<VacationPackage> getUserBookings(User u){
-        EntityManager entityManager= entityManagerFactory.createEntityManager();
+    public Set<VacationPackage> getUserBookings(User u) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        Set<VacationPackage> bookings=entityManager.find(User.class,u.getId()).getVacationPackages();
+        Set<VacationPackage> bookings = entityManager.find(User.class, u.getId()).getVacationPackages();
         entityManager.getTransaction().commit();
         entityManager.close();
         return bookings;

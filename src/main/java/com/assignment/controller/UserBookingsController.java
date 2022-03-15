@@ -68,6 +68,6 @@ public class UserBookingsController implements Initializable {
     private void loadBookings() {
         Set<VacationPackage> bookings = userService.getUserBookings();
         bookingsTableView.getItems().removeAll();
-        bookingsTableView.setItems(FXCollections.observableArrayList(currentUser.getVacationPackages()));
+        bookingsTableView.setItems(FXCollections.observableArrayList(bookings));
     }
 }
