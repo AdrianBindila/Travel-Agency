@@ -65,10 +65,9 @@ public class UserRepository {
         return foundEmail;
     }
 
-    public void addBooking(User u, VacationPackage p) {//TODO: fix duplicate entry
+    public void updateUser(User u) {//TODO: fix duplicate entry
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        u.getVacationPackages().add(p);
         entityManager.merge(u);
         entityManager.getTransaction().commit();
         entityManager.close();

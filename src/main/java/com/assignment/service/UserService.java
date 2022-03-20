@@ -53,14 +53,14 @@ public class UserService {
     }
 
     public void addPackage(User u, VacationPackage p) {
-
+        u.getVacationPackages().add(p);
+        userRepository.updateUser(u);
         if (p.getParticipants().size() >= p.getSeats()) {
             p.setStatus(VacationStatus.BOOKED.label);
         } else if (p.getParticipants().size() > 0 && !Objects.equals(p.getStatus(), VacationStatus.IN_PROGRESS.label)) {
             p.setStatus(VacationStatus.IN_PROGRESS.label);
         }
-        userRepository.addBooking(u, p);
-//        vacationPackageRepository.updatePackage(p);
+        vacationPackageRepository.updatePackage(p);
     }
 
     public Set<VacationPackage> getUserBookings() {

@@ -40,7 +40,7 @@ public class VacationPackage {
     @Column(nullable = false)
     private int seats;
 
-    @ManyToMany(mappedBy = "vacationPackages")
+    @ManyToMany(mappedBy = "vacationPackages", cascade = CascadeType.ALL)
     Set<User> participants = new HashSet<>();
 
     public VacationPackage() {

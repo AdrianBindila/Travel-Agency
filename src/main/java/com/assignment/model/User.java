@@ -30,7 +30,8 @@ public class User {
     @JoinTable(
             name = "User_VacationPackage",
             joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "vacation_id")}
+            inverseJoinColumns = {@JoinColumn(name = "vacation_id")},
+            uniqueConstraints = @UniqueConstraint(columnNames = {"user_id","vacation_id"})
     )
     private Set<VacationPackage> vacationPackages = new HashSet<>();
 
@@ -83,7 +84,4 @@ public class User {
         return vacationPackages;
     }
 
-    public void setVacationPackages(Set<VacationPackage> vacationPackages) {
-        this.vacationPackages = vacationPackages;
-    }
 }
